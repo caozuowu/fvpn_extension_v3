@@ -7,31 +7,6 @@ function logToBackground(message) {
     })
 }
 
-// document.getElementById('myButton')?.addEventListener('click', () => {
-//     console.log("chrome.proxy.settings")
-//     alert('clicked1');
-//     var config = {
-//         mode: 'fixed_servers',
-//         rules: {
-//             bypassList: ["<local>", "192.168.0.0/16", "172.16.0.0/12", "169.254.0.0/16", "10.0.0.0/8"],
-//             singleProxy: {
-//                 scheme: 'https',
-//                 host: "dc1.hk.flow.host",
-//                 port: 110
-//             }
-//         }
-//     };
-//     chrome.proxy.settings.set(
-//         { 
-//             value: config,
-//             scope: 'regular' 
-//         },
-//         function () { 
-
-//         }
-//     );
-// });
-
 async function drawProxyList(hard = false) {
     try {
         $("#loadingPopup").show()
@@ -84,15 +59,23 @@ async function proxySelected(selectedId) {
     element.addClass('selected')
     var currentHtml = ""
     var proxySetting = null
-    if(selectedId == "pac-script") {
+    var noProxyHtml = `
+    <div style="border-bottom: 2px solid #3399cc; margin: 0px;  padding: 0px;  padding-bottom: 14px;  padding-top: 4px;">
+        <img style="vertical-align: middle; height: 32px; float: left; padding-left: 4px;" src="../images/circle_shield_on.png"/>
+        <div style="padding-top: 6px;">
+            &nbsp;FlowVPN Active
+        </div>
+    </div>
+    `
+    if (selectedId == "pac-script") {
         proxySetting = ProxySetting.pacProxy("")
     } else if (selectedId == "direct") {
         proxySetting = ProxySetting.direct()
-        currentHtml = "<div style='border-bottom: 2px solid #3399cc; margin: 0px; padding: 0px; padding-bottom: 14px; padding-top: 4px;'><img style='vertical-align:middle ; height: 32px; float:left; padding-left: 4px;' src='../images/circle_shield_on.png' /><div style='padding-top: 6px;'> &nbsp;FlowVPN Active</div></div>"
-    } else if (selectedId == "system") {
+        currentHtml = noProxyHtml
+     } else if (selectedId == "system") {
         proxySetting = ProxySetting.system()
-        currentHtml = "<div style='border-bottom: 2px solid #3399cc; margin: 0px; padding: 0px; padding-bottom: 14px; padding-top: 4px;'><img style='vertical-align:middle ; height: 32px; float:left; padding-left: 4px;' src='../images/circle_shield_on.png' /><div style='padding-top: 6px;'> &nbsp;FlowVPN Active</div></div>"
-    } else if (element.data("proxy-type") == "fixed_servers") {
+        currentHtml = noProxyHtml
+     } else if (element.data("proxy-type") == "fixed_servers") {
         var host = element.data("proxy-host")
         let port = element.data("proxy-port")
         proxySetting = ProxySetting.fixedServers(host, port)
@@ -102,7 +85,7 @@ async function proxySelected(selectedId) {
         $("#currentProxy").html(currentHtml)
         let storage = await chrome.storage.local.get()
         chrome.runtime.sendMessage({
-            type: 'setProxy', 
+            type: 'setProxy',
             data: {
                 proxySetting: proxySetting,
                 raduser: storage.auth?.raduser ?? "",
@@ -114,7 +97,7 @@ async function proxySelected(selectedId) {
 
 function selectIdFor(proxySetting) {
     let mode = proxySetting?.proxy?.value?.mode
-    if (mode == "fixed_servers" ) {
+    if (mode == "fixed_servers") {
         var host = proxySetting?.proxy?.value?.rules?.singleProxy?.host ?? ""
         return host.split(".").join("-")
     } else {
@@ -147,7 +130,9 @@ function selectIdFor(proxySetting) {
             await drawProxyList()
             let storage = await chrome.storage.local.get()
             let selectId = selectIdFor(storage.proxySetting)
-            proxySelected(selectId)
+            if (selectId != undefined) {
+                proxySelected(selectId)
+            }
 
             $('[data-i18n-content]').each(function () {
                 var message = chrome.i18n.getMessage(this.getAttribute('data-i18n-content'));

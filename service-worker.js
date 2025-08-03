@@ -31,13 +31,33 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     }
 });
 
+chrome.runtime.onSuspend.addListener(() => {
+    // if (!isSavingData) {
+    //   isSavingData = true;
+    //   chrome.storage.local.set({ 
+    //     lastCloseTime: new Date().toISOString(),
+    //   }).then(() => {
+    //     console.log('Data saved before suspension');
+    //   });
+    // }
+});
+
+chrome.runtime.onStartup.addListener(async () => {
+    let storage = await chrome.storage.local.get()
+    setProxy(
+        storage.proxySetting,
+        storage.auth?.raduser ?? "",
+        fvpn(storage.auth?.radpass ?? "")
+    )
+});
+
 function setProxy(proxySetting, raduser, radpass) {
     console.log("setProxy ----- ")
     console.log(proxySetting)
     console.log(raduser)
     console.log(radpass)
     function createAuthCallback(user, pass) {
-        return function(details) {
+        return function (details) {
             console.log("onAuthRequiredCallback --- " + details.url);
             return {
                 authCredentials: {
@@ -57,15 +77,6 @@ function setProxy(proxySetting, raduser, radpass) {
         ['blocking']
     );
 }
-
-chrome.runtime.onStartup.addListener(async () => {
-    let storage = await chrome.storage.local.get()
-    setProxy(
-        storage.proxySetting,
-        storage.auth?.raduser ?? "",
-        fvpn(storage.auth?.radpass ?? "")
-    )
-});
 
 try {
     console.log("VPN Extension loaded");
