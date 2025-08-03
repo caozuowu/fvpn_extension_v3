@@ -1,0 +1,210 @@
+﻿<meta name="google" value="notranslate" />
+<html>
+
+<head>
+	<title>FlowVPN - Options</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="./chrome-bootstrap.css" />
+	<link rel="stylesheet" type="text/css" href="./options.css" />
+	<script src="/jquery-3.4.1.min.js"></script>
+	<script type="text/javascript" src="options-ui.js"></script>
+	<script type="module" src="options.js"></script>
+</head>
+
+<body class="chrome-bootstrap">
+	<div class="frame">
+		<div class="navigation">
+			<h1>
+				<a style="font-size:18px" data-i18n-content="Options">Options</a>
+			</h1>
+
+			<ul class="menu">
+				<li class="selected">
+					<a href="#general" data-i18n-content="General">Account</a>
+				</li>
+				<li>
+					<a href="#rules" data-i18n-content="Rules">Rules</a>
+				</li>
+			</ul>
+		</div>
+		<div class="mainview view">
+			<div id="general" class="selected" style='left: 200px;'>
+				<header>
+					<h1 data-i18n-content="General">Account</h1>
+				</header>
+				<div class="content">
+					<section>
+
+						<div
+							style='text-align: center; padding: 10px; padding-top: 30px; background-color: #3399cc; margin:0 ;width: 100%; '>
+							<a href='https://www.flowvpn.com/' target='_new'>
+								<img src='../images/fvpn-whitebg.png' width='60%' /><br />
+								<img src='../images/fvpn-header-60.png' style='margin-top:10px' width='50%' />
+							</a>
+						</div>
+						<div id='login'
+							style='background-color: #3399cc; width: 100%; margin:0; margin-bottom: 20px; padding: 10px; color: white;'>
+							<center>
+								<div>
+									<span class="field_label" style="width: 120px;"
+										data-i18n-content="user">Email:</span>
+									<input type="text" id="username" size="36"></input>
+								</div>
+								<div>
+									<span class="field_label" style="width: 120px;"
+										data-i18n-content="pass">Password:</span>
+									<input type="password" id="password" size="36"></input>
+								</div>
+
+								<div id='captcha' style='margin: 10px;'>
+								</div>
+
+							</center>
+
+							<br /><br />
+							<span style='font-size: 18px;'>
+								<a target="_new"
+									href='https://ssl3cdn.com/url-in.php?in=https%3A%2F%2Fwww.flowvpn.com%2Fsign-up'>
+									<div id='member' style='color: white; position: absolute; left: 40px;'
+										data-i18n-content="signup"><img style="vertical-align:middle" height="32px"
+											src='../images/member.png' /> &nbsp; &nbsp;Signup</div>
+								</a>
+
+								<div id='signup' style='position: absolute; right: 140px;' data-i18n-content="login">
+									<img style="vertical-align:middle" height="32px" src='../images/login.png' /> &nbsp;
+									&nbsp; Login
+								</div>
+
+
+								<center><img id='loading'
+										style='display: none ;text-align: center; position: relative; border-radius: 30px; border: 30px; top:00px; height: 56px; background-color: white;'
+										src='../images/loading.gif' /></center>
+							</span>
+
+
+							<br /><br /><br />
+
+
+						</div>
+
+
+						<div id='accountinfo'
+							style='display: none; background-color: #3399cc; width: 100%; margin:0; margin-bottom: 20px; padding: 10px; color: white;'>
+							<center>
+								<div>
+									<span class="field_label" style="width: 160px;"
+										data-i18n-content="user">Email:</span>
+									<input style='border:0; background-color:#3399cc; color: white ' type="text"
+										id="username2" size="30" disabled></input><br />
+									<span class="field_label" style="width: 160px;" data-i18n-content="expires">Account
+										Expires:</span>
+									<input style='border:0; background-color:#3399cc; color: white' type="text"
+										id="expires" size="30" disabled=""></input>
+								</div>
+
+
+
+
+
+							</center>
+
+							<br /><br />
+							<span style='font-size: 18px;'>
+
+								<a target="_new"
+									href='https://ssl3cdn.com/url-in.php?in=https%3A%2F%2Fwww.flowvpn.com%2Fclient'>
+									<div id='member' style='color: white; position: absolute; left: 40px;'
+										data-i18n-content="clientarea"><img style="vertical-align:middle" height="32px"
+											src='../images/member.png' /> &nbsp; &nbsp;Client Area</div>
+								</a>
+								<div id='logout' data-i18n-content="logout" style='position: absolute; right: 140px;'>
+									<img style="vertical-align:middle" height="32px" src='../images/logout.png' />
+									&nbsp; &nbsp;Logout
+								</div>
+							</span>
+							<br /><br /><br />
+
+						</div>
+
+						<center>
+							<span data-i18n-content="popuphelp" style='font-size: 14px;'>Click the popup to connect to
+								FlowVPN's web servers<br /> and secure your Internet access:</span>
+							<br /><br />
+							<img width='60%' src='../images/clickToActivate.png' />
+						</center>
+
+					</section>
+				</div>
+			</div>
+			<div id="rules" class="selected" style='left: 200px; display: none'>
+				<header>
+					<h1 data-i18n-content="Rules">Rules</h1>
+				</header>
+				<div class="content">
+					<h3 data-i18n-content="config_bypasslist">BypassList</h3>
+					<section>
+
+						<!-- div id='zonesDiv'>
+		                <select id='zoneList'>
+		                	<option value='None'>None</option>
+		                </select>
+	                </div -->
+
+						<p data-i18n-content="domain_in_bypasslist">Domains in bypass list will never use a proxy</p>
+						<div class="section">
+							<textarea id="bypasslist" cols="42" rows="5"
+								placeholder="192.168.1.1/16,*.foobar.com,*foobar.com:99,https://x.*.y.com:99"></textarea>
+							<a href='#' class='tooltip'>
+								<img src="../images/help.gif">
+								<span>
+									<img class="callout" src="../images/callout.gif" />
+									192.168.1.1/16, <br />
+									*.foobar.com, <br />
+									*foobar.com:99, <br />
+									https://x.*.y.com:99
+								</span>
+							</a>
+						</div>
+						<!-- h3 data-i18n-content="use_predefine_list">Use internal proxy bypass list</h3>
+                    <div class="checkbox">
+                        <input type="checkbox" id="use-china-list"/>
+                        <span data-i18n-content="china_list">China List</span>
+                    </div -->
+
+						<div id='customCountry'>
+							<h3 data-i18n-content="CustomCountry">Custom Routes</h3>
+							<br />
+							<div data-i18n-content="CustomCountryDesc">
+								FlowVPN can load all data for a website through a specific VPN server. This setting
+								overrides the normal server selection in the popup.<br /><br />
+
+								For example: If you enter <i>*google.com</i> and select USA then all content for the
+								website google.com will be loaded through a USA server where the web address for the
+								main tab is *google.com<br /><br />
+
+								You can also force websites to load directly without using a VPN server.<br /><br />
+							</div>
+							<center>
+								<div id='ccList'>Country List</div>
+								<form>
+									<input style='font-size: 18px' placeholder="*google.com" size="30" id='ccUrl'
+										name="ccUrl" />
+									<input type='hidden' id='ccProxySelected' name="ccProxySelected" value='DIRECT' />
+									<div id='ccCountryMenu' class="drop-down">
+									</div>
+									&nbsp; &nbsp;
+									<span id='ccSave'> <img src='../images/add.png' height='16'
+											style='cursor: pointer; vertical-align:middle'></span>
+								</form>
+								<div style='height: 500px;'></div>
+							</center>
+						</div>
+					</section>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</body>
+
+</html>

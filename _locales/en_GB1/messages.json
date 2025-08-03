@@ -1,0 +1,19 @@
+{
+    "appName": {
+        "message": "FlowVPN.com"
+    },
+    "appDesc": {
+        "message": "FlowVPN.com extension for Google Chrome"
+    },
+    "title": {
+        "message": "FlowVPN.com"
+    },
+    "proxy_helper_options" : {
+        "message": "FlowVPN Options"
+    },
+    "user" : { "message": "Email x" },
+    "pass" : { "message": "Password x" },
+    "login" : { "message": "Login x" },
+    "signup" : { "message": "Signup x" }
+
+}

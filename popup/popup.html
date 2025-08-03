@@ -1,0 +1,42 @@
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <link href="./popup.css" type="text/css" rel="stylesheet">
+  <script src="/jquery-3.4.1.min.js"></script>
+  <script type="module" src="popup.js"></script>
+  <style>
+    html {
+      overflow-y: scroll;
+    }
+  </style>
+
+</head>
+
+<body style='border: 0; margin: 0; padding: 0'>
+  <!-- <h1>hello word</h1> -->
+  <!-- <button id="myButton">click</button> -->
+  <script src="popup.js"></script>
+  <div id='fvLogo'><img src='../images/fvpn.png' width="100%" /></div>
+  <div id='loadingPopup' style='display:none'>
+    <center><img width="25%" src='../images/loading.gif' /></center>
+  </div>
+  <div id='openOptions'>
+    <div style="float: left; margin-left: 7px;"><img height="18" src="../images/options-2.png" /></div>Options
+  </div>
+  <div id='currentProxy'></div>
+  <ul id='proxyServers'>
+
+    <li class="fProxy" id="system">
+      <div style="float: left;"><img height="18" src="../images/block.png" /></div>System Settings
+    </li>
+    <li class="fProxy" id="direct">
+      <div style="float: left;"><img height="18" src="../images/stop.png" /></div>Force Direct
+    </li>
+    <li class="fProxy" id="reload">
+      <div style="float: left;"><img height="18" src="../images/reload-servers.png" /></div>Reload Servers
+    </li>
+  </ul>
+</body>
+
+</html>

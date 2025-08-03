@@ -1,0 +1,69 @@
+{
+  "manifest_version": 3,
+  "default_locale": "en",
+  "name": "extension vpn",
+  "version": "1.0",
+  "description": "vpn demo",
+  "icons": {
+    "128": "images/on.png",
+    "48": "images/on48.png",
+    "16": "images/on16.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "128": "images/on.png",
+      "48": "images/on48.png",
+      "16": "images/on16.png"
+    }
+  },
+  "options_page": "./options/options.html",
+  "options_ui": {
+	  "page": "./options/options.html",
+    "type": "module"
+	},
+  "commands": {
+    "open-option": {
+      "suggested_key": {
+        "default": "Alt+O"},
+      "description": "Open option page"
+    }
+},
+  "background": {
+    "service_worker": "./service-worker.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "./content-script.js"
+      ]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+  },
+  "permissions": [
+    "proxy",
+    "storage",
+    "alarms",
+    "webRequest",
+    "webRequestAuthProvider",
+    "declarativeNetRequest",
+    "webRequestBlocking",
+    "<all_urls>"
+  ],
+  "declarative_net_request": {
+    "rule_resources": [{
+      "id": "ruleset",
+      "enabled": true,
+      "path": "./rules.json"
+    }]
+  },
+  "host_permissions": [
+    "<all_urls>"
+  ]
+}
