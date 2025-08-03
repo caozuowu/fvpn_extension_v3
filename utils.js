@@ -49,11 +49,11 @@ export class Captcha {
             } else {
                 let msg = "Captcha failed:" + response.status
                 Logger.log(msg)
-                return Error(msg)
+                throw Error(msg)
             }
         } catch (error) {
             Logger.log("Captcha error:" + error)
-            return error
+            throw error
         }
     }
 }
@@ -293,18 +293,6 @@ export class Proxy {
                 Proxy.logProxy()
             }
         )
-        if (proxySetting.type == "direct" || proxySetting.type == "system") {
-            chrome.action.setIcon({
-                path: "/images/off.png"
-            })
-        } else {
-            chrome.action.setIcon({
-                path: "/images/on.png"
-            })
-        }
-        chrome.storage.local.set({
-            "proxySetting": proxySetting
-        })
     }
 
     static logProxy() {

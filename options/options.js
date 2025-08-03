@@ -1,4 +1,4 @@
-import { Captcha, Account, Proxy, Servers, ProxySetting } from "../utils.js"
+import { Captcha, Account, Proxy, ProxySetting } from "../utils.js"
 
 async function reload() {
     let storage = await chrome.storage.local.get()
@@ -86,13 +86,10 @@ document.addEventListener('DOMContentLoaded', function () {
             alert(error)
         }
     });
-});
 
-try {
-    reload()
-    Servers.fetch()
-    // let storage = await chrome.storage.local.get()
-    // console.log(storage)
-} catch (error) {
-    alert(error)
-}
+    try {
+        reload()
+    } catch (error) {
+        alert(error)
+    }
+});

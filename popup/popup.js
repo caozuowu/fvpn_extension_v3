@@ -1,4 +1,4 @@
-import { Logger, Proxy, ProxySetting, Servers, openOptions, fvpn } from "../utils.js"
+import { Logger, Proxy, ProxySetting, Servers, openOptions } from "../utils.js"
 
 function logToBackground(message) {
     chrome.runtime.sendMessage({
@@ -83,22 +83,17 @@ async function proxySelected(selectedId) {
 
     if (proxySetting) {
         $("#currentProxy").html(currentHtml)
-        let storage = await chrome.storage.local.get()
         chrome.runtime.sendMessage({
             type: 'setProxy',
-            data: {
-                proxySetting: proxySetting,
-                raduser: storage.auth?.raduser ?? "",
-                radpass: fvpn(storage.auth?.radpass ?? "")
-            }
+            data: proxySetting
         })
     }
 }
 
 function selectIdFor(proxySetting) {
-    let mode = proxySetting?.proxy?.value?.mode
+    let mode = proxySetting?.value?.mode
     if (mode == "fixed_servers") {
-        var host = proxySetting?.proxy?.value?.rules?.singleProxy?.host ?? ""
+        var host = proxySetting?.value?.rules?.singleProxy?.host ?? ""
         return host.split(".").join("-")
     } else {
         return mode
@@ -128,11 +123,15 @@ function selectIdFor(proxySetting) {
             })
 
             await drawProxyList()
-            let storage = await chrome.storage.local.get()
-            let selectId = selectIdFor(storage.proxySetting)
-            if (selectId != undefined) {
-                proxySelected(selectId)
-            }
+            chrome.proxy.settings.get(
+                { incognito: false },
+                proxySetting => {
+                    let selectId = selectIdFor(proxySetting)
+                    if (selectId != undefined) {
+                        proxySelected(selectId)
+                    }
+                }
+            )
 
             $('[data-i18n-content]').each(function () {
                 var message = chrome.i18n.getMessage(this.getAttribute('data-i18n-content'));
