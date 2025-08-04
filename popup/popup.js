@@ -108,7 +108,7 @@ function selectIdFor(proxySetting) {
         if (typeof auth?.raduser === "undefined" ||
             typeof auth?.expires === "undefined" ||
             auth?.expires < seconds) {
-            Proxy.set(ProxySetting.system())
+            Proxy.set(ProxySetting.system().proxy)
             openOptions()
         } else {
             $('#fvLogo').on('click', openOptions)
@@ -123,15 +123,11 @@ function selectIdFor(proxySetting) {
             })
 
             await drawProxyList()
-            chrome.proxy.settings.get(
-                { incognito: false },
-                proxySetting => {
-                    let selectId = selectIdFor(proxySetting)
-                    if (selectId != undefined) {
-                        proxySelected(selectId)
-                    }
-                }
-            )
+            let proxySetting = await Proxy.get()
+            let selectId = selectIdFor(proxySetting)
+            if (selectId != undefined) {
+                 proxySelected(selectId)
+             }
 
             $('[data-i18n-content]').each(function () {
                 var message = chrome.i18n.getMessage(this.getAttribute('data-i18n-content'));

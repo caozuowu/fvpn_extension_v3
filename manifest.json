@@ -42,8 +42,7 @@
     "alarms",
     "webRequest",
     "webRequestAuthProvider",
-    "declarativeNetRequest",
-    "<all_urls>"
+    "declarativeNetRequest"
   ],
   "declarative_net_request": {
     "rule_resources": [{

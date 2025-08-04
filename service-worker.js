@@ -32,7 +32,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
         console.log('[Logger]', request.data)
     } else if (request.type === 'setProxy') {
         let proxySetting = request.data
-        Proxy.set(proxySetting)
+        Proxy.set(proxySetting.proxy)
         let proxyType = proxySetting.proxy?.value?.mode ?? ""
         await setOnAuthRequiredListener()
         chrome.action.setIcon({
@@ -41,17 +41,23 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
     }
 });
 
+chrome.webRequest.onBeforeRequest.addListener(
+    async (details) => {
+        await setOnAuthRequiredListener()
+    },
+    {
+        urls: ['<all_urls>'],
+        types: ["main_frame", "sub_frame", "stylesheet", "script", "image", "font", "object", "xmlhttprequest", "ping", "csp_report", "media", "websocket", "other"],
+    }
+);
+
 chrome.runtime.onStartup.addListener(async () => {
     await setOnAuthRequiredListener()
-    chrome.proxy.settings.get(
-        { incognito: false },
-        proxySetting => {
-            let proxyType = proxySetting?.value?.mode ?? ""
-            chrome.action.setIcon({
-                path: proxyType.proxyStatusIcon()
-            })
-        }
-    )
+    let proxySetting = await Proxy.get()
+    let proxyType = proxySetting?.value?.mode ?? ""
+    chrome.action.setIcon({
+        path: proxyType.proxyStatusIcon()
+    })
 });
 
 async function setOnAuthRequiredListener() {
@@ -81,7 +87,7 @@ async function setOnAuthRequiredListener() {
 }
 
 chrome.runtime.onSuspend.addListener(() => {
-    Proxy.set(ProxySetting.system())
+    Proxy.set(ProxySetting.system().proxy)
 });
 
 console.log("VPN Extension loaded");

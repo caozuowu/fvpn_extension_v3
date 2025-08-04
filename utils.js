@@ -206,12 +206,12 @@ export class Servers {
                     return headers.reduce((obj, key, idx) => {
                         var value = values[idx] ?? ""
                         if (key == "host") {
-                           /*
-                            * v.host -> v.host 
-                            * a.v.host -> a.v.host
-                            * a.v.e.host -> a-v.e.host
-                            * a.v.e.d.host -> a-v.e.d.host
-                            */
+                            /*
+                             * v.host -> v.host 
+                             * a.v.host -> a.v.host
+                             * a.v.e.host -> a-v.e.host
+                             * a.v.e.d.host -> a-v.e.d.host
+                             */
                             const dotsCount = value.split('.').length - 1
                             value = dotsCount > 2 ? value.replace('.', '-') : value
                         }
@@ -284,15 +284,34 @@ export const ProxySetting = {
 }
 
 export class Proxy {
-    static set(proxySetting) {
-        Logger.log("Proxy set:")
-        Logger.log(proxySetting)
-        chrome.proxy.settings.set(
-            proxySetting.proxy,
-            function () {
-                Proxy.logProxy()
-            }
-        )
+    static set(proxy) {
+        return new Promise((resolve, reject) => {
+            chrome.proxy.settings.set(
+                proxy,
+                () => {
+                    if (chrome.runtime.lastError) {
+                        reject(chrome.runtime.lastError);
+                    } else {
+                        resolve();
+                    }
+                }
+            )
+        })
+    }
+
+    static get() {
+        return new Promise((resolve, reject) => {
+            chrome.proxy.settings.get(
+                { incognito: false },
+                (details) => {
+                    if (chrome.runtime.lastError) {
+                        reject(chrome.runtime.lastError)
+                    } else {
+                        resolve(details);
+                    }
+                }
+            )
+        })
     }
 
     static logProxy() {
